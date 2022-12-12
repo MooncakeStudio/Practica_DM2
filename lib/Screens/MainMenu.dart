@@ -4,11 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:practica2dm/Screens/Credits.dart';
 import 'package:practica2dm/Screens/SelectorTime.dart';
-import 'package:practica2dm/Screens/SessionsChart.dart';
-import 'package:practica2dm/Tools/SessionData.dart';
+import 'package:practica2dm/Tools/TimerData.dart';
 import 'package:practica2dm/Tools/utils.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainMenu extends StatefulWidget{
   const MainMenu({Key? key}) : super(key: key);
@@ -17,6 +17,8 @@ class MainMenu extends StatefulWidget{
   _MainMenuState createState() => _MainMenuState();
 }
 class _MainMenuState extends State<MainMenu> {
+
+
 
   static Future<void> stopAlarm (ReceivedAction action) async{
     if(action.buttonKeyPressed == "close"){
@@ -69,8 +71,9 @@ class _MainMenuState extends State<MainMenu> {
 
   @override
   Widget build(BuildContext context) {
+    final provider = Provider.of<TimerData>(context);
     return Provider(
-      create: (context) => SessionDatabase(),
+      create: (context) {},//=> //SessionDatabase(),
       child: Scaffold(
         backgroundColor: fondo(),
         appBar: AppBar(
@@ -125,7 +128,10 @@ class _MainMenuState extends State<MainMenu> {
                       style: ElevatedButton.styleFrom(
                         backgroundColor: botones()
                       ),
-                        onPressed: () {
+                        onPressed: () async {
+                        final prefs = await SharedPreferences.getInstance();
+                        provider.selectedTime = prefs.getDouble("Time") ?? 0;
+                        provider.maxGoals = prefs.getInt("Goals") ?? 0;
                           AudioPlayer().play(AssetSource('PulsarBoton.wav'));
                           Navigator.push(
                               context,

@@ -2,7 +2,7 @@ import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:practica2dm/Screens/MainMenu.dart';
-import 'package:practica2dm/Tools/SessionData.dart';
+import 'package:practica2dm/Tools/TimerDB.dart';
 import 'package:practica2dm/Tools/TimerData.dart';
 import 'package:provider/provider.dart';
 

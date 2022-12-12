@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -6,13 +8,17 @@ import 'package:practica2dm/Screens/MainMenu.dart';
 import 'package:practica2dm/Screens/Session.dart';
 import 'package:practica2dm/Screens/SessionsOptions.dart';
 import 'package:practica2dm/Screens/TimeOptions.dart';
+import 'package:practica2dm/Tools/TimerDB.dart';
 import 'package:practica2dm/Tools/TimerData.dart';
 import 'package:practica2dm/Tools/utils.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SelectorTime extends StatelessWidget{
   @override
   Widget build(BuildContext context){
+
+    final provider = Provider.of<TimerData>(context);
     return Scaffold(
         backgroundColor: fondo(),
         appBar: AppBar(
@@ -69,7 +75,7 @@ class SelectorTime extends StatelessWidget{
               TimeOptions(),
               SizedBox(height: 40,),
               Text(
-                "SESSION'S NUMBER",
+                "GOALS' NUMBER",
                 style: textStyle(35, textoNormal(), FontWeight.w700),
               ),
               SizedBox(height: 40,),
@@ -79,7 +85,13 @@ class SelectorTime extends StatelessWidget{
                 style: ElevatedButton.styleFrom(
                   backgroundColor: botones()
                 ),
-                  onPressed: (){
+                  onPressed: () async{
+                    final prefs = await SharedPreferences.getInstance();
+                    prefs.setDouble("Time", provider.selectedTime);
+                    prefs.setInt("Goals", provider.maxGoals);
+
+                    if(provider.selectedTime == 0) provider.selectedTime = 1500;
+                    if(provider.maxGoals == 0) provider.maxGoals = 5;
                     AudioPlayer().play(AssetSource('PulsarBoton.wav'));
                     Navigator.push(
                         context,
