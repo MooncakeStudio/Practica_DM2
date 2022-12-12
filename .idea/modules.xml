@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/prueba.iml" filepath="$PROJECT_DIR$/prueba.iml" />
-      <module fileurl="file://$PROJECT_DIR$/android/prueba_android.iml" filepath="$PROJECT_DIR$/android/prueba_android.iml" />
+      <module fileurl="file://$PROJECT_DIR$/practica2dm.iml" filepath="$PROJECT_DIR$/practica2dm.iml" />
+      <module fileurl="file://$PROJECT_DIR$/android/practica2dm_android.iml" filepath="$PROJECT_DIR$/android/practica2dm_android.iml" />
     </modules>
   </component>
 </project>
