@@ -23,16 +23,16 @@ class SessionsOptions extends StatelessWidget{
               width: 70,
               height: 50,
               decoration: int.parse(time) == provider.maxGoals ? BoxDecoration(
-                  color: Colors.white,
+                  color: botones(),
                   borderRadius: BorderRadius.circular(5)
               ): BoxDecoration(
-                border: Border.all(width: 3, color: Colors.white30),
+                border: Border.all(width: 3, color: botones()),
                 borderRadius: BorderRadius.circular(5)
               ),
               child: Center(
                 child: Text(
                   (int.parse(time)).toString(),
-                  style: textStyle(25, int.parse(time) == provider.maxGoals ? honeyYellow(): Colors.white, FontWeight.w700),
+                  style: textStyle(25, int.parse(time) == provider.maxGoals ? textoBotones(): textoNormal(), FontWeight.w700),
                 ),
               ),
             ),

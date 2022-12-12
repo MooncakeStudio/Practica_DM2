@@ -22,6 +22,29 @@ Color orchidCrayola(){
   return Color(0x9af896d8);
 }
 
+Color barraSuperior(){
+  return Color(0xFFBDB2FF);
+}
+
+Color fondo(){
+  return Color(0xfffffbff);
+}
+
+Color textoBotones(){
+  return Color(0xFF5E52A7);
+}
+
+Color botones(){
+  return Color(0xFFE5DEFF);
+}
+
+Color textoNormal(){
+  return Color(0xFF1C1B1F);
+}
+
+Color circuloCronometro(){
+  return Color(0xFF5F5C71);
+}
 
 List timesOptions= [
   "300",

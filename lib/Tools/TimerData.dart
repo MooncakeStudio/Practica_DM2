@@ -1,9 +1,15 @@
 import 'dart:async';
 
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_ringtone_player/flutter_ringtone_player.dart';
+import 'package:practica2dm/Screens/FinishScene.dart';
+import 'package:practica2dm/Screens/MainMenu.dart';
 import 'package:practica2dm/Tools/SessionData.dart';
+import 'package:practica2dm/Tools/utils.dart';
+import 'package:practica2dm/main.dart';
 import 'package:provider/provider.dart';
 import 'package:drift/drift.dart' as dr;
 
@@ -64,13 +70,13 @@ class TimerData extends ChangeNotifier{
   {
     final database = Provider.of<SessionDatabase>(context, listen: false);
     var fecha = DateTime.now().year.toString() + "-" + DateTime.now().month.toString() + "-" + DateTime.now().day.toString();
+
     if(currentPhase == "FOCUS")
     {
       FlutterRingtonePlayer.playAlarm(asAlarm: true);
-      new Timer(
-        Duration(seconds:10),
-          ()=>FlutterRingtonePlayer.stop()
-      );
+      createAlarmNotification("FOCUS", 0);
+
+      new Timer(Duration(seconds: 5), () { FlutterRingtonePlayer.stop();});
         print("Hola");
         database.insertSession(
             SessionDataCompanion(
@@ -81,19 +87,33 @@ class TimerData extends ChangeNotifier{
         );
         currentPhase = "BREAK";
         currentDuration = selectedTimePrev * (300/1500);
-        selectedTime = 300;
+        selectedTime = selectedTimePrev;
         rounds++;
-        goal++;
 
+        if(rounds == 4){
+          FlutterRingtonePlayer.playAlarm();
+          createAlarmNotification("FOCUS", 2);
+
+          new Timer(Duration(seconds: 5), () { FlutterRingtonePlayer.stop();});
+          database.insertSession(
+              SessionDataCompanion(
+                  fecha: dr.Value(fecha),
+                  tiempo: dr.Value(selectedTime),
+                  state: dr.Value(currentPhase)
+              )
+          );
+          currentPhase = "LONGBREAK";
+          currentDuration = selectedTimePrev;
+          selectedTime = selectedTimePrev;
+        }
 
     }
     else if(currentPhase == "BREAK")
     {
       FlutterRingtonePlayer.playAlarm();
-      new Timer(
-          Duration(seconds:5),
-              ()=>FlutterRingtonePlayer.stop()
-      );
+      createAlarmNotification("BREAK", 1);
+
+      new Timer(Duration(seconds: 5), () { FlutterRingtonePlayer.stop();});
         database.insertSession(
             SessionDataCompanion(
                 fecha: dr.Value(fecha),
@@ -102,40 +122,18 @@ class TimerData extends ChangeNotifier{
             )
         );
         currentPhase = "FOCUS";
-        currentDuration = selectedTimePrev;
-        selectedTime = selectedTimePrev;
+      currentDuration = selectedTimePrev;
+      selectedTime = selectedTimePrev;
 
-
-    }
-    else if(currentPhase == "FOCUS" && rounds == 3)
-    {
-      FlutterRingtonePlayer.playAlarm();
-      new Timer(
-          Duration(seconds:10),
-              ()=>FlutterRingtonePlayer.stop()
-      );
-
-      database.insertSession(
-            SessionDataCompanion(
-                fecha: dr.Value(fecha),
-                tiempo: dr.Value(selectedTime),
-                state: dr.Value(currentPhase)
-            )
-        );
-        currentPhase = "LONGBREAK";
-        currentDuration = selectedTimePrev;
-        selectedTime = selectedTimePrev;
-        rounds++;
-        goal++;
-
+        print(rounds);
     }
     else if(currentPhase == "LONGBREAK")
     {
       FlutterRingtonePlayer.playAlarm();
-      new Timer(
-          Duration(seconds:10),
-              ()=>FlutterRingtonePlayer.stop()
-      );
+      createAlarmNotification("LONGBREAK", 3);
+
+      new Timer(Duration(seconds: 5), () { FlutterRingtonePlayer.stop();});
+
         database.insertSession(
             SessionDataCompanion(
                 fecha: dr.Value(fecha),
@@ -147,10 +145,34 @@ class TimerData extends ChangeNotifier{
         currentDuration = selectedTimePrev;
         selectedTime = selectedTimePrev;
         rounds = 0;
-
-
+        goal++;
+        if(goal == maxGoals){
+          goal = 0;
+          timer.cancel();
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => FinishScene()
+              )
+          );
+        }
     }
 
     notifyListeners();
+  }
+
+  Future<void> createAlarmNotification(String text, int id) async{
+    await AwesomeNotifications().createNotification(
+        content: NotificationContent(
+            id: id,
+            channelKey: 'basic_channel',
+            title: 'Alarm',
+            body: 'Finish ${text} time',
+            autoDismissible: false
+        ),
+        actionButtons: [
+          NotificationActionButton(key: 'close', label: 'Stop')
+        ]
+    );
   }
 }

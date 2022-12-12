@@ -47,6 +47,8 @@ dependencies:
   path: ^1.8.2
   android_alarm_manager_plus: ^2.0.6
   flutter_ringtone_player: ^3.2.0
+  awesome_notifications: ^0.7.4+1
+  audioplayers: ^1.0.1
 
 dev_dependencies:
   flutter_test:
@@ -75,7 +77,13 @@ flutter:
   # included with your application, so that you can use the icons in
   # the material Icons class.
   uses-material-design: true
-
+  assets:
+    - assets/AnimGIF2.gif
+    - assets/icono_Disp_Moviles.png
+    - assets/MooncakeStudio.png
+    - assets/icono_Disp_Moviles_transparente.png
+    - assets/Raley2.png
+    - assets/PulsarBoton.wav
   # To add assets to your application, add an assets section, like this:
   # assets:
   #   - images/a_dot_burr.jpeg

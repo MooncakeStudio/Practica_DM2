@@ -1,7 +1,9 @@
 
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:practica2dm/Tools/TimerData.dart';
+import 'package:practica2dm/Tools/utils.dart';
 import 'package:provider/provider.dart';
 
 class TimerController extends StatefulWidget{
@@ -14,20 +16,36 @@ class _TimerControllerState extends State<TimerController>{
   Widget build(BuildContext context){
     final provider = Provider.of<TimerData>(context);
     return Container(
-      width: 100,
-      height: 100,
-      decoration: BoxDecoration(color: Colors.black26, shape: BoxShape.circle),
+      width: 150,
+      height: 80,
       child: Center(
-        child: IconButton(
-          icon: provider.isTimerPlaying ? Icon(Icons.pause) : Icon(Icons.play_arrow),
-          color: Colors.white,
-          iconSize: 55,
-          onPressed: ()
-          {
-            provider.isTimerPlaying ? Provider.of<TimerData>(context, listen: false).pauseSession() : Provider.of<TimerData>(context, listen: false).startSession(context);
-          },
+        child: provider.isTimerPlaying ? ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: botones()
+            ),
+            onPressed: (){
+              AudioPlayer().play(AssetSource('PulsarBoton.wav'));
+              Provider.of<TimerData>(context, listen: false).pauseSession();
+            },
+            child: Text(
+              "PAUSE",
+              style: textStyle(15, textoNormal(), FontWeight.w500),
+            )
+        ) : ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                backgroundColor: botones()
+            ),
+            onPressed: (){
+              AudioPlayer().play(AssetSource('PulsarBoton.wav'));
+              Provider.of<TimerData>(context, listen: false).startSession(context);
+            },
+            child: Text(
+              "START",
+              style: textStyle(15, textoNormal(), FontWeight.w500),
+            )
         )
-      )
+
+        )
     );
   }
 }

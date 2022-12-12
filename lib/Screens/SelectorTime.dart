@@ -1,5 +1,8 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:practica2dm/Screens/Credits.dart';
+import 'package:practica2dm/Screens/MainMenu.dart';
 import 'package:practica2dm/Screens/Session.dart';
 import 'package:practica2dm/Screens/SessionsOptions.dart';
 import 'package:practica2dm/Screens/TimeOptions.dart';
@@ -11,19 +14,46 @@ class SelectorTime extends StatelessWidget{
   @override
   Widget build(BuildContext context){
     return Scaffold(
-      backgroundColor: Colors.deepPurpleAccent,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.lightGreen,
-        title: Text(
-          "MOONCAKE'S POMODORO",
-          style: textStyle(20, Colors.white, FontWeight.w700),
+        backgroundColor: fondo(),
+        appBar: AppBar(
+            elevation: 0,
+            backgroundColor: barraSuperior(),
+            title: Text(
+              "MOONCAKE ESTUDIO",
+              style: textStyle(20, textoNormal(), FontWeight.w700),
+            )
         ),
-        actions: [
-          IconButton(onPressed: (){}, icon: Icon(Icons.more_vert, color: Colors.white), iconSize: 40)
-        ],
-      ),
-
+        drawer: Drawer(
+            backgroundColor: fondo(),
+            child: ListView(
+              padding: EdgeInsets.only(top: 45, left: 15),
+              children: [
+                Text("MOONCAKE ESTUDIO", style: textStyle(35, textoNormal(), FontWeight.w700)),
+                ListTile(
+                    leading: Icon(Icons.home),
+                    title:  Text('HOME', style: textStyle(15, textoBotones(), FontWeight.w700)),
+                    onTap: () {
+                      AudioPlayer().play(AssetSource('PulsarBoton.wav'));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => MainMenu())
+                    );
+                    }
+                ),
+                ListTile(
+                    leading: Icon(Icons.account_circle),
+                    title: Text('CONTACT',style: textStyle(15, textoBotones(), FontWeight.w700)),
+                    onTap: () {
+                      AudioPlayer().play(AssetSource('PulsarBoton.wav'));
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Credits())
+                    );
+                    }
+                )
+              ],
+            )
+        ),
       body: Center(
         child: Container(
           alignment: Alignment.center,
@@ -32,21 +62,25 @@ class SelectorTime extends StatelessWidget{
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               Text(
-                "SELECT YOUR FOUCS TIME",
-                style: textStyle(45, honeyYellow(), FontWeight.w700),
+                "SELECT YOUR\n FOCUS TIME",
+                style: textStyle(45, textoNormal(), FontWeight.w700),
               ),
               SizedBox(height: 40,),
               TimeOptions(),
               SizedBox(height: 40,),
               Text(
                 "SESSION'S NUMBER",
-                style: textStyle(35, honeyYellow(), FontWeight.w700),
+                style: textStyle(35, textoNormal(), FontWeight.w700),
               ),
               SizedBox(height: 40,),
               SessionsOptions(),
               SizedBox(height: 40,),
               ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: botones()
+                ),
                   onPressed: (){
+                    AudioPlayer().play(AssetSource('PulsarBoton.wav'));
                     Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => Session())
@@ -54,7 +88,7 @@ class SelectorTime extends StatelessWidget{
                   },
                   child: Text(
                     "START SESSION",
-                    style: textStyle(15, honeyYellow(), FontWeight.w500),
+                    style: textStyle(15, textoNormal(), FontWeight.w500),
                   )
               )
             ],

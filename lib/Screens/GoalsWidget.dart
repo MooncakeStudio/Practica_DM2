@@ -13,16 +13,16 @@ class GoalsWidget extends StatelessWidget{
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text("${provider.rounds}/4", style: textStyle(30, Colors.grey[200], FontWeight.bold),),
-            Text("${provider.goal}/${provider.maxGoals}", style: textStyle(30, Colors.grey[200], FontWeight.bold),),
+            Text("${provider.rounds}/4", style: textStyle(30, textoNormal(), FontWeight.bold),),
+            Text("${provider.goal}/${provider.maxGoals}", style: textStyle(30, textoNormal(), FontWeight.bold),),
           ],
         ),
         SizedBox(height: 10,),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text("ROUND", style: textStyle(25,Colors.grey[200], FontWeight.bold),),
-            Text("GOAL", style: textStyle(25,Colors.grey[200], FontWeight.bold),),
+            Text("ROUND", style: textStyle(25,textoNormal(), FontWeight.bold),),
+            Text("GOAL", style: textStyle(25,textoNormal(), FontWeight.bold),),
           ],
         )
       ],
